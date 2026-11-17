@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visiontec - Sales / POS</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --primary-light: #6366f1;
+    --secondary: #f59e0b;
+    --danger: #dc2626;
+    --danger-dark: #b91c1c;
+    --success: #10b981;
+    --success-dark: #059669;
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%);
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-content {
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+  }
+
+  .brand span {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #a5b4fc;
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    font-size: 0.875rem;
+  }
+
+  .logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+
+  .logout-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  nav {
+    background: rgba(79, 70, 229, 0.5);
+    backdrop-filter: blur(10px);
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  nav::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  nav::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+
+  .nav-link {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    color: #a5b4fc;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+
+  .nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom-color: white;
+  }
+
+  .nav-link.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom-color: white;
+  }
+
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .page-title h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .page-title i {
+    color: var(--success);
+    font-size: 1.5rem;
+  }
+
+  .fast-cashier-badge {
+    background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .pos-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    background: var(--surface);
+  }
+
+  .search-box:focus {
+    outline: none;
+    border-color: var(--success);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  }
+
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    max-height: 480px;
+    overflow-y: auto;
+    padding: 0.5rem;
+  }
+
+  .catalog-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .catalog-item:hover {
+    border-color: var(--success);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .catalog-item-img {
+    width: 100%;
+    height: 100px;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--text-muted);
+  }
+
+  .catalog-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .catalog-item-img i {
+    font-size: 2rem;
+    opacity: 0.5;
+  }
+
+  .catalog-item-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .catalog-item-price {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: var(--success);
+  }
+
+  .cart-section {
+    background: var(--surface);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    height: fit-content;
+  }
+
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .cart-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .clear-cart-btn {
+    font-size: 0.75rem;
+    color: var(--danger);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .clear-cart-btn:hover {
+    text-decoration: underline;
+  }
+
+  .form-group {
+    margin-top: 1rem;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    background: var(--background);
+    transition: all 0.2s;
+  }
+
+  .form-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+
+  .cart-items {
+    margin-top: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cart-item-info {
+    flex: 1;
+  }
+
+  .cart-item-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .cart-item-quantity {
+    font-size: 0.625rem;
+    color: var(--text-muted);
+  }
+
+  .cart-item-price {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .remove-item-btn {
+    margin-left: 0.5rem;
+    padding: 0.25rem;
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .cart-summary {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border);
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .summary-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .summary-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .grand-total {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--text);
+  }
+
+  .grand-total-value {
+    color: var(--success);
+  }
+
+  .checkout-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .checkout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-content {
+    background: var(--surface);
+    border-radius: 1.5rem;
+    max-width: 450px;
+    width: 100%;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Toast notification (page does not load Tailwind, so it is styled here) */
+  #toast-notification {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    background: #0f172a;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2000;
+    transition: all 0.3s;
+    transform: translateY(5rem);
+    opacity: 0;
+  }
+
+  #toast-notification:not(.opacity-0) {
+    transform: none;
+    opacity: 1;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 1024px) {
+    .pos-container {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .catalog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-content">
+    <a href="home.html" class="brand">
+      VISIONTEC
+      <span>Computer Shop System</span>
+    </a>
+    <div class="user-info">
+      <span id="active-worker-name">Not Logged In</span>
+      <button id="logout-btn" class="logout-btn hidden">Logout</button>
+    </div>
+  </div>
+  <nav>
+    <a class="nav-link" href="home.html">Home</a>
+    <a class="nav-link" href="login.html">Login</a>
+    <a class="nav-link" href="dashboard.html">Dashboard</a>
+    <a class="nav-link" href="products.html">Products</a>
+    <a class="nav-link" href="customers.html">Customers</a>
+    <a class="nav-link active" href="sales.html">Sales / POS</a>
+    <a class="nav-link" href="suppliers.html">Suppliers</a>
+    <a class="nav-link admin-only-link" href="expenses.html">Expenses</a>
+    <a class="nav-link admin-only-link" href="reports.html">Reports</a>
+    <a class="nav-link admin-only-link" href="team.html">Team Members</a>
+    <a class="nav-link" href="receipt.html">Receipt</a>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header">
+    <div class="page-title">
+      <h2>
+        <i class="fa-solid fa-cash-register"></i>
+        Mobile POS Checkout
+      </h2>
+    </div>
+    <div class="fast-cashier-badge">
+      Fast Cashier
+    </div>
+  </div>
+
+  <div class="pos-container">
+    <div class="catalog-section">
+      <input type="text" id="pos-search" oninput="renderPosCatalog()" placeholder="Search for items..." class="search-box">
+      <div id="pos-catalog" class="catalog-grid">
+        <!-- Dynamic POS items - populated by JavaScript -->
+        <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+          <i class="fa-solid fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+          <p>No products available. Add products first.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-section">
+      <div class="cart-header">
+        <h3>Current Order</h3>
+        <button onclick="clearCart()" class="clear-cart-btn">Clear Cart</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Select Customer:</label>
+        <select id="pos-customer-select" class="form-select">
+          <option value="walk-in">Walk-in Customer</option>
+          <!-- Dynamically populated -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Payment Method:</label>
+        <select id="pos-payment-method" class="form-select">
+          <option value="Cash">Cash</option>
+          <option value="M-Pesa">M-Pesa</option>
+          <option value="Card">Credit/Debit Card</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+        </select>
+      </div>
+
+      <div id="cart-items" class="cart-items">
+        <!-- Cart rows populated dynamically -->
+        <div class="empty-cart" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+          <i class="fa-solid fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+          <p>Cart is empty</p>
+        </div>
+      </div>
+
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span class="summary-label">Items Total:</span>
+          <span id="cart-item-count" class="summary-value">0</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Grand Total:</span>
+          <span id="cart-grand-total" class="grand-total grand-total-value">Ksh 0</span>
+        </div>
+        <button onclick="processSale()" class="checkout-btn">
+          <i class="fa-solid fa-check"></i>
+          Complete & Print Receipt
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Authentication and role-based access control
+  (function() {
+    const session = sessionStorage.getItem('user_session');
+    
+    if (!session) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    try {
+      const user = JSON.parse(session);
+      
+      const userNameElement = document.getElementById('active-worker-name');
+      if (userNameElement) {
+        userNameElement.textContent = user.username;
+      }
+      
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.classList.remove('hidden');
+        logoutBtn.onclick = () => {
+          sessionStorage.removeItem('user_session');
+          window.location.href = 'home.html';
+        };
+      }
+
+      const isAdmin = (user.is_admin === true) || (user.role === 'admin');
+      
+      if (!isAdmin) {
+        const adminLinks = document.querySelectorAll('.admin-only-link');
+        adminLinks.forEach(function(link) {
+          link.style.display = 'none';
+          link.parentElement.removeChild(link);
+        });
+        console.log('Non-admin user detected. Admin links removed.');
+      } else {
+        console.log('Admin user detected. All links visible.');
+      }
+    } catch (e) {
+      console.error('Error:', e);
+      window.location.href = 'login.html';
+    }
+  })();
+
+  // POS System State
+  let products = [];
+  let customers = [];
+  let cart = [];
+  let salesHistory = [];
+
+  // Load data from database on page load
+  async function loadPOSData() {
+    try {
+      const response = await fetch('/api/bootstrap');
+      if (!response.ok) throw new Error('Database API unavailable');
+      const result = await response.json();
+      
+      if (!result.empty && result.data) {
+        if (Array.isArray(result.data.products)) {
+          products = result.data.products;
+        }
+        if (Array.isArray(result.data.customers)) {
+          customers = result.data.customers;
+        }
+        if (Array.isArray(result.data.sales)) {
+          salesHistory = result.data.sales;
+        }
+      }
+      
+      renderPosCatalog();
+      renderPosCustomerDropdown();
+    } catch (error) {
+      console.error('Error loading POS data:', error);
+      showToast('Failed to load POS data from database.');
+    }
+  }
+
+  // Returns a usable image source for a product, or null if it has none
+  function getImageSrc(p) {
+    const img = p && p.image;
+    if (typeof img !== 'string' || !img) return null;
+    return (img.startsWith('data:image') || img.startsWith('http') || img.startsWith('/')) ? img : null;
+  }
+
+  function renderPosCatalog() {
+    const catalog = document.getElementById('pos-catalog');
+    if (!catalog) return;
+    
+    const searchQuery = (document.getElementById('pos-search')?.value || '').toLowerCase();
+    
+    // Filter products that are in stock and match search
+    const filteredProducts = products.filter(p => 
+      p.stock > 0 && 
+      (p.name.toLowerCase().includes(searchQuery) || 
+       (p.category && p.category.toLowerCase().includes(searchQuery)))
+    );
+    
+    if (filteredProducts.length === 0) {
+      catalog.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+          <i class="fa-solid fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+          <p>${searchQuery ? 'No products match your search.' : 'No products available. Add products first.'}</p>
+        </div>
+      `;
+      return;
+    }
+    
+    catalog.innerHTML = '';
+    
+    filteredProducts.forEach(p => {
+      const item = document.createElement('div');
+      item.className = 'catalog-item';
+      item.onclick = () => addToCart(p.id);
+
+      const imgSrc = getImageSrc(p);
+      item.innerHTML = `
+        <div class="catalog-item-img">
+          ${imgSrc
+            ? `<img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(p.name)}" loading="lazy">`
+            : '<i class="fa-solid fa-laptop"></i>'}
+        </div>
+        <div class="catalog-item-name">${escapeHtml(p.name)}</div>
+        <div class="catalog-item-price">Ksh ${Number(p.price).toLocaleString()}</div>
+        <div style="font-size: 0.625rem; color: var(--text-muted); margin-top: 0.25rem;">Stock: ${p.stock}</div>
+      `;
+
+      // Fall back to the laptop icon if an image fails to load
+      const imgEl = item.querySelector('.catalog-item-img img');
+      if (imgEl) {
+        imgEl.addEventListener('error', () => {
+          imgEl.parentElement.innerHTML = '<i class="fa-solid fa-laptop"></i>';
+        });
+      }
+
+      catalog.appendChild(item);
+    });
+  }
+
+  function renderPosCustomerDropdown() {
+    const select = document.getElementById('pos-customer-select');
+    if (!select) return;
+    
+    select.innerHTML = '<option value="walk-in">Walk-in Customer</option>';
+    
+    if (customers && customers.length > 0) {
+      customers.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.name;
+        opt.innerText = `${c.name} (${c.phone})`;
+        select.appendChild(opt);
+      });
+    }
+  }
+
+  function addToCart(productId) {
+    const p = products.find(x => x.id === productId);
+    if (!p || p.stock <= 0) {
+      showToast('Product not available or out of stock!');
+      return;
+    }
+
+    // Check if item is already in cart
+    const existing = cart.find(x => x.id === productId);
+    if (existing) {
+      if (existing.qty < p.stock) {
+        existing.qty++;
+        showToast(`Added another ${p.name} to cart.`);
+      } else {
+        showToast('Cannot exceed available stock!');
+        return;
+      }
+    } else {
+      cart.push({ 
+        id: p.id, 
+        name: p.name, 
+        price: p.price, 
+        qty: 1,
+        stock: p.stock
+      });
+      showToast(`Added ${p.name} to cart.`);
+    }
+    
+    renderCart();
+  }
+
+  function updateCartQty(id, delta) {
+    const item = cart.find(x => x.id === id);
+    const p = products.find(x => x.id === id);
+    
+    if (!item || !p) return;
+
+    item.qty += delta;
+    
+    if (item.qty <= 0) {
+      cart = cart.filter(x => x.id !== id);
+      showToast('Item removed from cart.');
+    } else if (item.qty > p.stock) {
+      item.qty = p.stock;
+      showToast('Maximum available stock reached!');
+    }
+    
+    renderCart();
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(x => x.id !== id);
+    renderCart();
+    showToast('Item removed from cart.');
+  }
+
+  function clearCart() {
+    if (cart.length === 0) {
+      showToast('Cart is already empty.');
+      return;
+    }
+    
+    if (confirm('Are you sure you want to clear the cart? All items will be removed.')) {
+      cart = [];
+      renderCart();
+      showToast('Cart cleared.');
+    }
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    const countEl = document.getElementById('cart-item-count');
+    const grandTotalEl = document.getElementById('cart-grand-total');
+
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (cart.length === 0) {
+      container.innerHTML = `
+        <div class="empty-cart" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+          <i class="fa-solid fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+          <p>Cart is empty</p>
+        </div>
+      `;
+      
+      if (countEl) countEl.innerText = '0';
+      if (grandTotalEl) grandTotalEl.innerText = 'Ksh 0';
+      return;
+    }
+
+    let grandTotal = 0;
+    let totalQty = 0;
+
+    cart.forEach(item => {
+      const itemTotal = item.price * item.qty;
+      grandTotal += itemTotal;
+      totalQty += item.qty;
+
+      const row = document.createElement('div');
+      row.className = 'cart-item';
+      row.innerHTML = `
+        <div class="cart-item-info">
+          <div class="cart-item-name">${escapeHtml(item.name)}</div>
+          <div class="cart-item-quantity">Price: Ksh ${Number(item.price).toLocaleString()}</div>
+          <div class="cart-item-price">Ksh ${itemTotal.toLocaleString()}</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-left: 0.5rem;">
+          <button onclick="updateCartQty('${escapeHtml(item.id)}', -1)" class="w-5 h-5 bg-slate-200 rounded font-bold text-slate-700 flex items-center justify-center" style="width: 20px; height: 20px; background: var(--background); border: 1px solid var(--border); border-radius: 4px; font-weight: bold;">-</button>
+          <span style="font-weight: bold; font-size: 0.75rem;">${item.qty}</span>
+          <button onclick="updateCartQty('${escapeHtml(item.id)}', 1)" class="w-5 h-5 bg-slate-200 rounded font-bold text-slate-700 flex items-center justify-center" style="width: 20px; height: 20px; background: var(--background); border: 1px solid var(--border); border-radius: 4px; font-weight: bold;">+</button>
+          <button onclick="removeFromCart('${escapeHtml(item.id)}')" class="remove-item-btn">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      `;
+      container.appendChild(row);
+    });
+
+    if (countEl) countEl.innerText = totalQty;
+    if (grandTotalEl) grandTotalEl.innerText = `Ksh ${grandTotal.toLocaleString()}`;
+  }
+
+  async function processSale() {
+    if (cart.length === 0) {
+      showToast('Cart is empty! Add items to proceed with the sale.');
+      return;
+    }
+
+    const customerSelect = document.getElementById('pos-customer-select');
+    const customerName = customerSelect ? customerSelect.value : 'Walk-in Customer';
+    const paymentMethodSelect = document.getElementById('pos-payment-method');
+    const paymentMethod = paymentMethodSelect ? paymentMethodSelect.value : 'Cash';
+
+    // Calculate total
+    let saleTotal = 0;
+    cart.forEach(cItem => {
+      saleTotal += cItem.price * cItem.qty;
+    });
+
+    if (saleTotal <= 0) {
+      showToast('Invalid sale amount!');
+      return;
+    }
+
+    // Create sale record
+    const saleId = `VT-${Date.now()}`;
+    const saleDate = new Date().toISOString().split('T')[0];
+    const workerName = sessionStorage.getItem('user_session') ? JSON.parse(sessionStorage.getItem('user_session')).username : 'Unknown';
+
+    const newSale = {
+      id: saleId,
+      date: saleDate,
+      customer: customerName === 'walk-in' ? 'Walk-in Customer' : customerName,
+      worker: workerName,
+      paymentMethod: paymentMethod,
+      items: [...cart],
+      total: saleTotal
+    };
+
+    try {
+      // Update local stock temporarily
+      cart.forEach(cItem => {
+        const p = products.find(x => x.id === cItem.id);
+        if (p) {
+          p.stock -= cItem.qty;
+        }
+      });
+
+      // Add to sales history
+      salesHistory.unshift(newSale);
+
+      // Save to database
+      const saved = await saveToDatabase();
+      if (!saved) {
+        // Roll back the local changes so stock and history stay correct
+        cart.forEach(cItem => {
+          const p = products.find(x => x.id === cItem.id);
+          if (p) p.stock += cItem.qty;
+        });
+        salesHistory.shift();
+        renderPosCatalog();
+        return;
+      }
+
+      // Keep this sale so receipt.html can display it
+      sessionStorage.setItem('last_receipt', JSON.stringify(newSale));
+
+      // Clear cart
+      cart = [];
+      renderCart();
+      renderPosCatalog(); // Re-render catalog with updated stock
+
+      // Show success message
+      showToast(`Sale completed successfully! Transaction ID: ${saleId}`);
+
+      // Redirect to receipt page (optional)
+      setTimeout(() => {
+        window.location.href = 'receipt.html?id=' + encodeURIComponent(saleId);
+      }, 800);
+      
+    } catch (error) {
+      console.error('Error processing sale:', error);
+      showToast('Failed to process sale. Please try again.');
+    }
+  }
+
+  async function saveToDatabase() {
+    try {
+      const payload = {
+        products,
+        sales: salesHistory
+      };
+
+      const response = await fetch('/api/sync', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: payload })
+      });
+
+      if (!response.ok) throw new Error('Database save failed');
+      return true;
+    } catch (error) {
+      console.error('Database save error:', error);
+      showToast('Could not save sale to database. Please check your connection.');
+      return false;
+    }
+  }
+
+  function escapeHtml(text) {
+    if (!text) return '';
+    return text.toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function showToast(message) {
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast-notification';
+      toast.className = 'translate-y-20 opacity-0';
+      toast.innerHTML = '<i class="fa-solid fa-circle-info" style="color:#818cf8"></i><span id="toast-message"></span>';
+      document.body.appendChild(toast);
+    }
+    document.getElementById('toast-message').innerText = message;
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0');
+    }, 3000);
+  }
+
+  // Close modal on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.add('hidden');
+      }
+    });
+  });
+
+  // Load POS data on page load
+  window.addEventListener('load', loadPOSData);
+</script>
+</body>
+</html>

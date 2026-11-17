@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visiontec - Reports</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --primary-light: #6366f1;
+    --secondary: #f59e0b;
+    --danger: #dc2626;
+    --danger-dark: #b91c1c;
+    --success: #10b981;
+    --success-dark: #059669;
+    --teal: #14b8a6;
+    --teal-dark: #0d9488;
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%);
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-content {
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+  }
+
+  .brand span {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #a5b4fc;
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    font-size: 0.875rem;
+  }
+
+  .logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+
+  .logout-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  nav {
+    background: rgba(79, 70, 229, 0.5);
+    backdrop-filter: blur(10px);
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  nav::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  nav::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+
+  .nav-link {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    color: #a5b4fc;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+
+  .nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom-color: white;
+  }
+
+  .nav-link.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom-color: white;
+  }
+
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .page-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .page-title h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .page-title i {
+    color: var(--teal);
+    font-size: 1.5rem;
+  }
+
+  .admin-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .page-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    color: white;
+    box-shadow: var(--shadow);
+  }
+
+  .btn-secondary {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    box-shadow: var(--shadow);
+  }
+
+  .btn-outline {
+    background: var(--background);
+    color: var(--text-muted);
+    border: 2px solid var(--border);
+  }
+
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-outline:hover {
+    background: var(--text-muted);
+    color: white;
+  }
+
+  /* Date filters */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: var(--surface);
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .filter-group label {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+  }
+
+  .filter-group input[type="date"] {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--border);
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    background: var(--background);
+  }
+
+  .filter-group input[type="date"]:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+
+  .preset-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-left: auto;
+  }
+
+  .preset-btn {
+    padding: 0.5rem 0.875rem;
+    border-radius: 0.5rem;
+    border: 2px solid var(--border);
+    background: var(--background);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .preset-btn:hover,
+  .preset-btn.active {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: white;
+  }
+
+  .print-only {
+    display: none;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .stat-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 0.5rem;
+  }
+
+  .stat-value.revenue { color: var(--success); }
+  .stat-value.expenses { color: var(--danger); }
+  .stat-value.profit { color: var(--primary); }
+  .stat-value.loss { color: var(--danger); }
+
+  .stat-note {
+    font-size: 0.625rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
+
+  .report-container {
+    background: var(--surface);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  .report-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    background: var(--background);
+    color: var(--text-muted);
+  }
+
+  .tab-btn:hover {
+    background: var(--text-muted);
+    color: white;
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    color: white;
+  }
+
+  .report-content {
+    min-height: 200px;
+  }
+
+  .section-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .section-title:first-child {
+    margin-top: 0;
+  }
+
+  .mini-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .mini-stat {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .mini-stat-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .mini-stat-value {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 0.75rem 0.75rem;
+    background: var(--background);
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .data-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  .data-table tbody tr:hover {
+    background: rgba(20, 184, 166, 0.05);
+  }
+
+  .data-table .right {
+    text-align: right;
+  }
+
+  .data-table tfoot td {
+    font-weight: 800;
+    background: var(--background);
+    border-top: 2px solid var(--border);
+  }
+
+  .thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    background: var(--background);
+    display: block;
+  }
+
+  .thumb-fallback {
+    width: 36px;
+    height: 36px;
+    border-radius: 0.5rem;
+    background: var(--background);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+  }
+
+  .product-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.125rem 0.625rem;
+    border-radius: 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .badge.ok { background: #dcfce7; color: #16a34a; }
+  .badge.low { background: #fef3c7; color: #d97706; }
+  .badge.out { background: #fee2e2; color: #b91c1c; }
+  .badge.cat { background: #e0e7ff; color: #4338ca; }
+
+  .link {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .link:hover {
+    text-decoration: underline;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+  }
+
+  .empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media print {
+    header, nav, .action-buttons, .report-tabs, .filters, .page-header {
+      display: none !important;
+    }
+
+    body {
+      background: white;
+    }
+
+    main {
+      padding: 0;
+      max-width: none;
+    }
+
+    .print-only {
+      display: block;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #000;
+    }
+
+    .print-only h1 {
+      font-size: 1.25rem;
+    }
+
+    .print-only p {
+      font-size: 0.75rem;
+      color: #444;
+    }
+
+    .stat-card,
+    .report-container {
+      box-shadow: none;
+    }
+
+    .stat-card:hover {
+      transform: none;
+    }
+
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 0.35rem 0.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-header-content {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .action-buttons {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .stats-grid,
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+
+    .preset-buttons {
+      margin-left: 0;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-content">
+    <a href="home.html" class="brand">
+      VISIONTEC
+      <span>Computer Shop System</span>
+    </a>
+    <div class="user-info">
+      <span id="active-worker-name">Not Logged In</span>
+      <button id="logout-btn" class="logout-btn hidden">Logout</button>
+    </div>
+  </div>
+  <nav>
+    <a class="nav-link" href="home.html">Home</a>
+    <a class="nav-link" href="login.html">Login</a>
+    <a class="nav-link" href="dashboard.html">Dashboard</a>
+    <a class="nav-link" href="products.html">Products</a>
+    <a class="nav-link" href="customers.html">Customers</a>
+    <a class="nav-link" href="sales.html">Sales / POS</a>
+    <a class="nav-link" href="suppliers.html">Suppliers</a>
+    <a class="nav-link admin-only-link" href="expenses.html">Expenses</a>
+    <a class="nav-link active" href="reports.html">Reports</a>
+    <a class="nav-link admin-only-link" href="team.html">Team Members</a>
+    <a class="nav-link" href="receipt.html">Receipt</a>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header">
+    <div class="page-header-content">
+      <div>
+        <div class="page-title">
+          <h2>
+            <i class="fa-solid fa-file-invoice"></i>
+            Financial & Inventory Reports
+            <span class="admin-badge">Admin Only</span>
+          </h2>
+        </div>
+        <p class="page-subtitle">Comprehensive real-time financial summaries for store operations.</p>
+      </div>
+      <div class="action-buttons">
+        <!-- <button onclick="exportCSV()" class="btn btn-outline">
+          <i class="fa-solid fa-file-csv"></i>
+          Export CSV
+        </button> -->
+        <button onclick="downloadReportPDF()" class="btn btn-primary">
+          <i class="fa-solid fa-file-pdf"></i>
+          Download PDF Report
+        </button>
+        <button onclick="printCurrentReport()" class="btn btn-secondary">
+          <i class="fa-solid fa-print"></i>
+          Print Report
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label for="filter-from">From</label>
+      <input type="date" id="filter-from" onchange="onRangeChange()">
+    </div>
+    <div class="filter-group">
+      <label for="filter-to">To</label>
+      <input type="date" id="filter-to" onchange="onRangeChange()">
+    </div>
+    <div class="preset-buttons">
+      <button class="preset-btn active" id="preset-all" onclick="applyPreset('all')">All Time</button>
+      <button class="preset-btn" id="preset-today" onclick="applyPreset('today')">Today</button>
+      <button class="preset-btn" id="preset-week" onclick="applyPreset('week')">Last 7 Days</button>
+      <button class="preset-btn" id="preset-month" onclick="applyPreset('month')">This Month</button>
+      <button class="preset-btn" id="preset-year" onclick="applyPreset('year')">This Year</button>
+    </div>
+  </div>
+
+  <div id="printable-report">
+    <div class="print-only">
+      <h1>VISIONTEC COMPUTERS - <span id="print-title">Sales Report</span></h1>
+      <p>Period: <span id="print-period">All time</span> &nbsp;|&nbsp; Generated: <span id="print-generated"></span></p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Gross Revenue</p>
+        <p id="rep-gross-revenue" class="stat-value revenue">Ksh 0</p>
+        <p id="rep-sales-count" class="stat-note">0 sales</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Total Operational Expenses</p>
+        <p id="rep-total-expenses" class="stat-value expenses">Ksh 0</p>
+        <p id="rep-expenses-count" class="stat-note">0 expenses</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Estimated Net Profit</p>
+        <p id="rep-net-profit" class="stat-value profit">Ksh 0</p>
+        <p class="stat-note">Revenue minus expenses</p>
+      </div>
+    </div>
+
+    <div class="report-container">
+      <div class="report-tabs">
+        <button onclick="switchReportTab('sales')" id="tab-rep-sales" class="tab-btn active">
+          <i class="fa-solid fa-cash-register"></i>
+          Sales Report
+        </button>
+        <button onclick="switchReportTab('products')" id="tab-rep-products" class="tab-btn">
+          <i class="fa-solid fa-laptop"></i>
+          Products Report
+        </button>
+        <button onclick="switchReportTab('suppliers')" id="tab-rep-suppliers" class="tab-btn">
+          <i class="fa-solid fa-truck"></i>
+          Suppliers Report
+        </button>
+        <button onclick="switchReportTab('expenses')" id="tab-rep-expenses" class="tab-btn">
+          <i class="fa-solid fa-receipt"></i>
+          Expenses Report
+        </button>
+      </div>
+
+      <div id="report-tab-content" class="report-content">
+        <div class="empty-state">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <h3>Loading report data...</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // STRICT ADMIN-ONLY ACCESS CONTROL - runs first
+  (function() {
+    const session = sessionStorage.getItem('user_session');
+
+    if (!session) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    try {
+      const user = JSON.parse(session);
+      const isAdmin = (user.is_admin === true) || (user.role === 'admin');
+
+      if (!isAdmin) {
+        alert('Access denied. Admin privileges required to view financial reports.');
+        window.location.href = 'dashboard.html';
+        return;
+      }
+
+      const userNameElement = document.getElementById('active-worker-name');
+      if (userNameElement) {
+        userNameElement.textContent = user.username;
+      }
+
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.classList.remove('hidden');
+        logoutBtn.onclick = () => {
+          sessionStorage.removeItem('user_session');
+          window.location.href = 'home.html';
+        };
+      }
+    } catch (e) {
+      console.error('Error:', e);
+      window.location.href = 'login.html';
+    }
+  })();
+
+  // ---------- State ----------
+  let data = { sales: [], products: [], suppliers: [], expenses: [] };
+  let currentTab = 'sales';
+  let exportData = { name: 'report', headers: [], rows: [] };
+  let loadFailed = false;
+
+  const TAB_TITLES = {
+    sales: 'Sales Report',
+    products: 'Products Report',
+    suppliers: 'Suppliers Report',
+    expenses: 'Expenses Report'
+  };
+
+  const LOW_STOCK_LIMIT = 5;
+
+  // ---------- Helpers ----------
+  function esc(value) {
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function money(value) {
+    return 'Ksh ' + Number(value || 0).toLocaleString();
+  }
+
+  function fmtDate(value) {
+    if (!value) return '-';
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return String(value);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function iso(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  function imageSrc(p) {
+    const img = p && p.image;
+    if (typeof img !== 'string' || !img) return null;
+    return (img.startsWith('data:image') || img.startsWith('http') || img.startsWith('/')) ? img : null;
+  }
+
+  function inRange(dateStr) {
+    const from = document.getElementById('filter-from').value;
+    const to = document.getElementById('filter-to').value;
+    if (!from && !to) return true;
+    const d = String(dateStr || '').slice(0, 10);
+    if (!d) return false;
+    if (from && d < from) return false;
+    if (to && d > to) return false;
+    return true;
+  }
+
+  function periodLabel() {
+    const from = document.getElementById('filter-from').value;
+    const to = document.getElementById('filter-to').value;
+    if (!from && !to) return 'All time';
+    if (from && to) return fmtDate(from) + ' to ' + fmtDate(to);
+    if (from) return 'From ' + fmtDate(from);
+    return 'Up to ' + fmtDate(to);
+  }
+
+  function filteredSales() {
+    return data.sales.filter(s => inRange(s.date))
+      .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || String(b.id).localeCompare(String(a.id)));
+  }
+
+  function filteredExpenses() {
+    return data.expenses.filter(e => inRange(e.date))
+      .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || String(b.id).localeCompare(String(a.id)));
+  }
+
+  const sumBy = (arr, fn) => arr.reduce((s, x) => s + (Number(fn(x)) || 0), 0);
+
+  // A cell is either a plain value (escaped) or { html, text } for rich content
+  function cellHtml(c) {
+    return (c && typeof c === 'object') ? c.html : esc(c);
+  }
+  function cellText(c) {
+    return (c && typeof c === 'object') ? c.text : c;
+  }
+
+  function buildTable(headers, rows, opts = {}) {
+    const right = new Set(opts.right || []);
+    const head = headers.map((h, i) => `<th class="${right.has(i) ? 'right' : ''}">${esc(h)}</th>`).join('');
+    const body = rows.map(r =>
+      '<tr>' + r.map((c, i) => `<td class="${right.has(i) ? 'right' : ''}">${cellHtml(c)}</td>`).join('') + '</tr>'
+    ).join('');
+    let foot = '';
+    if (opts.footer) {
+      foot = '<tfoot><tr>' + opts.footer.map((c, i) => `<td class="${right.has(i) ? 'right' : ''}">${cellHtml(c)}</td>`).join('') + '</tr></tfoot>';
+    }
+    return `<div class="table-wrap"><table class="data-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody>${foot}</table></div>`;
+  }
+
+  function miniStats(items) {
+    return '<div class="mini-stats">' + items.map(([label, value]) =>
+      `<div class="mini-stat"><div class="mini-stat-label">${esc(label)}</div><div class="mini-stat-value">${esc(value)}</div></div>`
+    ).join('') + '</div>';
+  }
+
+  function emptyState(title, text) {
+    return `<div class="empty-state"><i class="fa-solid fa-chart-line"></i><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`;
+  }
+
+  function setExport(name, headers, rows) {
+    exportData = { name, headers, rows: rows.map(r => r.map(cellText)) };
+  }
+
+  // ---------- Load ----------
+  async function loadReportData() {
+    try {
+      const response = await fetch('/api/bootstrap');
+      if (!response.ok) throw new Error('Database API unavailable');
+      const result = await response.json();
+      const d = result.data || {};
+      data.sales = Array.isArray(d.sales) ? d.sales : [];
+      data.products = Array.isArray(d.products) ? d.products : [];
+      data.suppliers = Array.isArray(d.suppliers) ? d.suppliers : [];
+      data.expenses = Array.isArray(d.expenses) ? d.expenses : [];
+      loadFailed = false;
+    } catch (error) {
+      console.error('Error loading report data:', error);
+      loadFailed = true;
+    }
+    refreshAll();
+  }
+
+  // ---------- Filters ----------
+  function setActivePreset(name) {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    if (name) {
+      const btn = document.getElementById('preset-' + name);
+      if (btn) btn.classList.add('active');
+    }
+  }
+
+  function applyPreset(name) {
+    const now = new Date();
+    const from = document.getElementById('filter-from');
+    const to = document.getElementById('filter-to');
+
+    if (name === 'all') {
+      from.value = '';
+      to.value = '';
+    } else if (name === 'today') {
+      from.value = to.value = iso(now);
+    } else if (name === 'week') {
+      const start = new Date(now);
+      start.setDate(now.getDate() - 6);
+      from.value = iso(start);
+      to.value = iso(now);
+    } else if (name === 'month') {
+      from.value = iso(new Date(now.getFullYear(), now.getMonth(), 1));
+      to.value = iso(now);
+    } else if (name === 'year') {
+      from.value = iso(new Date(now.getFullYear(), 0, 1));
+      to.value = iso(now);
+    }
+
+    setActivePreset(name);
+    refreshAll();
+  }
+
+  function onRangeChange() {
+    setActivePreset(null);
+    refreshAll();
+  }
+
+  // ---------- Stats ----------
+  function updateStats() {
+    const sales = filteredSales();
+    const expenses = filteredExpenses();
+    const revenue = sumBy(sales, s => s.total);
+    const expenseTotal = sumBy(expenses, e => e.amount);
+    const profit = revenue - expenseTotal;
+
+    document.getElementById('rep-gross-revenue').textContent = money(revenue);
+    document.getElementById('rep-total-expenses').textContent = money(expenseTotal);
+
+    const profitEl = document.getElementById('rep-net-profit');
+    profitEl.textContent = (profit < 0 ? '-' : '') + money(Math.abs(profit));
+    profitEl.className = 'stat-value ' + (profit < 0 ? 'loss' : 'profit');
+
+    document.getElementById('rep-sales-count').textContent = sales.length + (sales.length === 1 ? ' sale' : ' sales');
+    document.getElementById('rep-expenses-count').textContent = expenses.length + (expenses.length === 1 ? ' expense' : ' expenses');
+
+    document.getElementById('print-period').textContent = periodLabel();
+    document.getElementById('print-generated').textContent = new Date().toLocaleString('en-GB');
+  }
+
+  // ---------- Tabs ----------
+  function switchReportTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    const selectedTab = document.getElementById('tab-rep-' + tab);
+    if (selectedTab) selectedTab.classList.add('active');
+    renderTab();
+  }
+
+  function refreshAll() {
+    updateStats();
+    renderTab();
+  }
+
+  function renderTab() {
+    const area = document.getElementById('report-tab-content');
+    document.getElementById('print-title').textContent = TAB_TITLES[currentTab];
+
+    if (loadFailed) {
+      area.innerHTML = emptyState('Could not load report data', 'Check that the server is running, then refresh the page.');
+      setExport(currentTab, [], []);
+      return;
+    }
+
+    if (currentTab === 'sales') area.innerHTML = renderSales();
+    else if (currentTab === 'products') area.innerHTML = renderProducts();
+    else if (currentTab === 'suppliers') area.innerHTML = renderSuppliers();
+    else if (currentTab === 'expenses') area.innerHTML = renderExpenses();
+  }
+
+  // ---------- Sales report ----------
+  function renderSales() {
+    const sales = filteredSales();
+    if (sales.length === 0) {
+      setExport('sales-report', [], []);
+      return emptyState('No sales in this period', 'Complete a sale on the Sales / POS page or widen the date range.');
+    }
+
+    const revenue = sumBy(sales, s => s.total);
+    const itemsSold = sales.reduce((n, s) => n + sumBy(Array.isArray(s.items) ? s.items : [], i => i.qty), 0);
+
+    // Payment method breakdown
+    const methods = {};
+    sales.forEach(s => {
+      const m = s.paymentMethod || 'Unknown';
+      methods[m] = methods[m] || { count: 0, total: 0 };
+      methods[m].count++;
+      methods[m].total += Number(s.total) || 0;
+    });
+    const methodRows = Object.entries(methods)
+      .sort((a, b) => b[1].total - a[1].total)
+      .map(([m, v]) => [m, v.count, money(v.total)]);
+
+    // Top selling products
+    const products = {};
+    sales.forEach(s => (Array.isArray(s.items) ? s.items : []).forEach(i => {
+      const key = i.id || i.name;
+      products[key] = products[key] || { name: i.name, qty: 0, revenue: 0 };
+      products[key].qty += Number(i.qty) || 0;
+      products[key].revenue += (Number(i.qty) || 0) * (Number(i.price) || 0);
+    }));
+    const topRows = Object.values(products)
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 10)
+      .map(p => [p.name, p.qty, money(p.revenue)]);
+
+    // Sales list
+    const headers = ['Receipt #', 'Date', 'Customer', 'Served By', 'Payment', 'Items', 'Total'];
+    const rows = sales.map(s => {
+      const qty = sumBy(Array.isArray(s.items) ? s.items : [], i => i.qty);
+      return [
+        { html: `<a class="link" href="receipt.html?id=${encodeURIComponent(s.id)}">${esc(s.id)}</a>`, text: s.id },
+        fmtDate(s.date),
+        s.customer || 'Walk-in Customer',
+        s.worker || '-',
+        s.paymentMethod || '-',
+        qty,
+        money(s.total)
+      ];
+    });
+    setExport('sales-report', headers, rows);
+
+    return `
+      ${miniStats([
+        ['Total Sales', sales.length],
+        ['Items Sold', itemsSold],
+        ['Revenue', money(revenue)],
+        ['Average Sale', money(revenue / sales.length)]
+      ])}
+      <div class="two-col">
+        <div>
+          <h3 class="section-title">By Payment Method</h3>
+          ${buildTable(['Method', 'Sales', 'Amount'], methodRows, { right: [1, 2] })}
+        </div>
+        <div>
+          <h3 class="section-title">Top Selling Products</h3>
+          ${buildTable(['Product', 'Qty Sold', 'Revenue'], topRows, { right: [1, 2] })}
+        </div>
+      </div>
+      <h3 class="section-title">All Sales</h3>
+      ${buildTable(headers, rows, { right: [5, 6], footer: ['Total', '', '', '', '', itemsSold, money(revenue)] })}
+    `;
+  }
+
+  // ---------- Products report ----------
+  function renderProducts() {
+    const products = data.products.slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
+    if (products.length === 0) {
+      setExport('products-report', [], []);
+      return emptyState('No products found', 'Add products on the Products page first.');
+    }
+
+    const totalUnits = sumBy(products, p => p.stock);
+    const stockValue = sumBy(products, p => (Number(p.price) || 0) * (Number(p.stock) || 0));
+    const lowCount = products.filter(p => p.stock > 0 && p.stock <= LOW_STOCK_LIMIT).length;
+    const outCount = products.filter(p => !(Number(p.stock) > 0)).length;
+
+    const headers = ['Product', 'Category', 'Price', 'Stock', 'Stock Value', 'Status'];
+    const rows = products.map(p => {
+      const stock = Number(p.stock) || 0;
+      const status = stock <= 0 ? ['out', 'Out of stock'] : stock <= LOW_STOCK_LIMIT ? ['low', 'Low stock'] : ['ok', 'In stock'];
+      const src = imageSrc(p);
+      const thumb = src
+        ? `<img class="thumb" src="${esc(src)}" alt="">`
+        : '<div class="thumb-fallback"><i class="fa-solid fa-laptop"></i></div>';
+      return [
+        { html: `<div class="product-cell">${thumb}<span>${esc(p.name)}</span></div>`, text: p.name },
+        { html: `<span class="badge cat">${esc(p.category || '-')}</span>`, text: p.category || '' },
+        money(p.price),
+        stock,
+        money((Number(p.price) || 0) * stock),
+        { html: `<span class="badge ${status[0]}">${status[1]}</span>`, text: status[1] }
+      ];
+    });
+    setExport('products-report', headers, rows);
+
+    return `
+      ${miniStats([
+        ['Products', products.length],
+        ['Units In Stock', totalUnits],
+        ['Inventory Value', money(stockValue)],
+        ['Low Stock (≤ ' + LOW_STOCK_LIMIT + ')', lowCount],
+        ['Out Of Stock', outCount]
+      ])}
+      ${buildTable(headers, rows, { right: [2, 3, 4], footer: ['Total', '', '', totalUnits, money(stockValue), ''] })}
+      <p class="stat-note" style="margin-top:.75rem;">Inventory figures show current stock and are not affected by the date filter.</p>
+    `;
+  }
+
+  // ---------- Suppliers report ----------
+  function renderSuppliers() {
+    const suppliers = data.suppliers.slice().sort((a, b) => String(a.name || a.company || '').localeCompare(String(b.name || b.company || '')));
+    if (suppliers.length === 0) {
+      setExport('suppliers-report', [], []);
+      return emptyState('No suppliers found', 'Add suppliers on the Suppliers page first.');
+    }
+
+    const headers = ['Supplier', 'Contact', 'Email', 'Address / Notes'];
+    const rows = suppliers.map(s => [
+      s.name || s.company || '-',
+      s.contact || s.phone || s.contactPerson || '-',
+      s.email || '-',
+      s.address || s.location || s.notes || s.products || '-'
+    ]);
+    setExport('suppliers-report', headers, rows);
+
+    return `
+      ${miniStats([['Total Suppliers', suppliers.length]])}
+      ${buildTable(headers, rows)}
+    `;
+  }
+
+  // ---------- Expenses report ----------
+  function renderExpenses() {
+    const expenses = filteredExpenses();
+    if (expenses.length === 0) {
+      setExport('expenses-report', [], []);
+      return emptyState('No expenses in this period', 'Log expenses on the Expenses page or widen the date range.');
+    }
+
+    const total = sumBy(expenses, e => e.amount);
+
+    const cats = {};
+    expenses.forEach(e => {
+      const c = e.category || 'Other';
+      cats[c] = cats[c] || { count: 0, total: 0 };
+      cats[c].count++;
+      cats[c].total += Number(e.amount) || 0;
+    });
+    const catRows = Object.entries(cats)
+      .sort((a, b) => b[1].total - a[1].total)
+      .map(([c, v]) => [c, v.count, money(v.total), (v.total / total * 100).toFixed(1) + '%']);
+
+    const headers = ['Date', 'Title', 'Category', 'Logged By', 'Amount'];
+    const rows = expenses.map(e => [
+      fmtDate(e.date),
+      e.title || '-',
+      e.category || 'Other',
+      e.createdBy || '-',
+      money(e.amount)
+    ]);
+    setExport('expenses-report', headers, rows);
+
+    return `
+      ${miniStats([
+        ['Total Expenses', money(total)],
+        ['Entries', expenses.length],
+        ['Average Expense', money(total / expenses.length)],
+        ['Biggest Category', catRows[0][0]]
+      ])}
+      <h3 class="section-title">By Category</h3>
+      ${buildTable(['Category', 'Entries', 'Amount', 'Share'], catRows, { right: [1, 2, 3] })}
+      <h3 class="section-title">All Expenses</h3>
+      ${buildTable(headers, rows, { right: [4], footer: ['Total', '', '', '', money(total)] })}
+    `;
+  }
+
+  // ---------- Output ----------
+  function exportCSV() {
+    if (!exportData.headers.length) {
+      alert('There is no data to export for this report.');
+      return;
+    }
+
+    const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+    const lines = [exportData.headers.map(q).join(',')]
+      .concat(exportData.rows.map(r => r.map(q).join(',')));
+
+    const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'visiontec-' + exportData.name + '-' + iso(new Date()) + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function printCurrentReport() {
+    document.getElementById('print-generated').textContent = new Date().toLocaleString('en-GB');
+    window.print();
+  }
+
+  function downloadReportPDF() {
+    // Opens the print dialog - choose "Save as PDF" as the destination.
+    // The file name comes from the page title.
+    const original = document.title;
+    document.title = 'Visiontec ' + TAB_TITLES[currentTab] + ' ' + iso(new Date());
+    document.getElementById('print-generated').textContent = new Date().toLocaleString('en-GB');
+    window.print();
+    setTimeout(() => { document.title = original; }, 500);
+  }
+
+  window.addEventListener('load', loadReportData);
+</script>
+</body>
+</html>

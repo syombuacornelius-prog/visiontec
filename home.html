@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visiontec - Home</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --primary-light: #6366f1;
+    --secondary: #f59e0b;
+    --danger: #dc2626;
+    --success: #10b981;
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Very light 15% dark tint so the background image shows through clearly */
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.15) 0%, rgba(30, 27, 75, 0.15) 100%), 
+                url('./download.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  header {
+    background: rgba(30, 27, 75, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-content {
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .brand span {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #e0e7ff;
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    font-size: 0.875rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  .logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+
+  .logout-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  nav {
+    background: rgba(79, 70, 229, 0.25);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  nav::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  nav::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+
+  .nav-link {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    color: #e0e7ff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+
+  .nav-link:hover {
+    color: white;
+    background: rgba(65, 242, 0, 0.15);
+    border-bottom-color: white;
+  }
+
+  .nav-link.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.25);
+    border-bottom-color: white;
+  }
+
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-banner {
+    /* Lower opacity (45% - 50%) and lighter blur so the image shines clearly through */
+    background: linear-gradient(135deg, rgba(22, 9, 209, 0.52) 100%, rgba(12, 0, 223, 0.45) 50%, rgba(1, 2, 69, 0.45) 100%);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(1px);
+    border: 1px solid rgba(244, 244, 244, 0.35);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  .hero-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin-top: 1rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #f8fafc;
+    margin-top: 0.5rem;
+    max-width: 600px;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.65);
+  }
+
+  .hero-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .info-badge {
+    background: rgba(15, 23, 42, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .info-badge strong {
+    color: #fde047;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .stat-card {
+    /* 55% white opacity with light 5px blur for a clear glass look */
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    transition: all 0.2s;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 0.5rem;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
+  }
+
+  .stat-value.items {
+    color: #0f172a;
+  }
+
+  .stat-value.sales {
+    color: #047857;
+  }
+
+  .stat-value.customers {
+    color: #3730a3;
+  }
+
+  .login-prompt {
+    /* 58% amber glass opacity so the background shows through clearly */
+    background: linear-gradient(135deg, rgba(254, 243, 199, 0.58) 0%, rgba(253, 230, 138, 0.58) 100%);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(252, 211, 77, 0.75);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 2rem;
+    box-shadow: var(--shadow);
+  }
+
+  .login-prompt p {
+    color: #451a03;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+  }
+
+  .login-prompt-btn {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: var(--shadow);
+  }
+
+  .login-prompt-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 1.5rem;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-content">
+    <a href="home.html" class="brand">
+      VISIONTEC
+      <span>Computer Shop System</span>
+    </a>
+    <div class="user-info">
+      <span id="active-worker-name">Not Logged In</span>
+      <button id="logout-btn" class="logout-btn hidden">Logout</button>
+    </div>
+  </div>
+  <nav>
+    <a class="nav-link active" href="home.html">Home</a>
+    <a class="nav-link" href="login.html">Login</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero-banner">
+    <div class="hero-content">
+      <span class="hero-badge">Mobile & Desktop POS</span>
+      <h1 class="hero-title">Welcome to Visiontec Computer Shop</h1>
+      <p class="hero-description">
+        Complete Shop Management System for sales, inventory, customers, and expenses. Please login with your registered team credentials.
+      </p>
+      <div class="hero-info">
+        <div class="info-badge">
+          Worker: <strong id="home-active-user" style="color: #fde047;">Not Logged In</strong>
+        </div>
+        <div class="info-badge">
+          Currency: <strong style="color: #34d399;">Ksh</strong>
+        </div>
+      </div>
+    </div>
+    <i class="fa-solid fa-desktop" style="position: absolute; right: -2rem; bottom: -4rem; font-size: 16rem; color: rgba(255, 255, 255, 0.05);"></i>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <p class="stat-label">Items In Stock</p>
+      <p id="home-stat-items" class="stat-value items">0</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Today Sales</p>
+      <p id="home-stat-sales" class="stat-value sales">Ksh 0</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Customers</p>
+      <p id="home-stat-customers" class="stat-value customers">0</p>
+    </div>
+  </div>
+
+  <div class="login-prompt">
+    <p><strong>Authorized Personnel Only</strong></p>
+    <p>To access the management system, please login with your credentials.</p>
+    <a href="login.html" class="login-prompt-btn">Login to System</a>
+  </div>
+</main>
+
+<script>
+  // Check if user is logged in
+  window.addEventListener('load', () => {
+    const session = sessionStorage.getItem('user_session');
+    
+    if (session) {
+      // User is logged in - show logout button and update UI
+      const user = JSON.parse(session);
+      document.getElementById('active-worker-name').textContent = user.username;
+      document.getElementById('home-active-user').textContent = user.username;
+      document.getElementById('logout-btn').classList.remove('hidden');
+      
+      // Show logout button functionality
+      document.getElementById('logout-btn').onclick = () => {
+        sessionStorage.removeItem('user_session');
+        window.location.reload();
+      };
+    } else {
+      // User is not logged in - keep default state
+      document.getElementById('logout-btn').classList.add('hidden');
+    }
+  });
+
+  // Close modal on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.add('hidden');
+      }
+    });
+  });
+</script>
+</body>
+</html>
